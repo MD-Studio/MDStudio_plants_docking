@@ -51,4 +51,7 @@ setup(
         'Operating System :: OS Independent',
         'Intended Audience :: Science/Research',
         ],
+    extras_require={
+        'test': ['coverage']
+    }
 )
