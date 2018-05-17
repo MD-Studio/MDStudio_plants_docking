@@ -13,7 +13,7 @@ global:
 
 install:
   # install library
-  - pip install .[test]
+  - pip install -e .[test]
 
 script:
   - (cd tests && coverage run -m unittest discover -vvv)
