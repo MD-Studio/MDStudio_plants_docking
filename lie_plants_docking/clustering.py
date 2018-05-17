@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import numpy
 import itertools
+import logging
+import numpy
 import matplotlib
 
-from twisted.logger import Logger
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 
@@ -167,7 +167,7 @@ class ClusterStructures(object):
     :type labels:  list
     """
 
-    logging = Logger()
+    logger = logging.getLogger(__name__)
 
     def __init__(self, xyz, metric='rmsd', labels=None):
 
@@ -356,11 +356,11 @@ class ClusterStructures(object):
                 for idx in cl[0]:
                     self._clusters_filtered[self.labels[idx]] = {'cluster': n, 'mean': self.labels[idx] == meanpose}
             else:
-                self.logging.debug('Cluster {0} contains less that {1} structures ({2}). Dropping'.format(n, min_cluster_count, len(cl[0])))
+                self.logger.debug('Cluster {0} contains less that {1} structures ({2}). Dropping'.format(n, min_cluster_count, len(cl[0])))
                 for idx in cl[0]:
                     self._clusters_filtered[self.labels[idx]] = {'cluster': 0, 'mean': 0}
 
-        self.logging.info('Cluster {0} structures. pdist method: {1}, cluster method: {2}, criterion: {3}, tolerance: {4}, minimum cluster size: {5}'.format(
+        self.logger.info('Cluster {0} structures. pdist method: {1}, cluster method: {2}, criterion: {3}, tolerance: {4}, minimum cluster size: {5}'.format(
             len(self.xyz), self.metric, self.method, self.criterion, self.t, min_cluster_count))
-        self.logging.info('Resolved {0} clusters with a coverage of {1}%'.format(self.cluster_count, self.coverage * 100))
+        self.logger.info('Resolved {0} clusters with a coverage of {1}%'.format(self.cluster_count, self.coverage * 100))
         return self._clusters_filtered
