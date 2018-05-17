@@ -5,4 +5,4 @@
 This repo containts the interface between [MDStudio](https://github.com/MD-Studio/MDStudio) and [Plants](http://www.mnf.uni-tuebingen.de/fachbereiche/pharmazie-und-biochemie/pharmazie/pharmazeutische-chemie/pd-dr-t-exner/research/plants.html)
 
 ## Note
-**You should request a LICENSE to use PLANTS** visit the [plants website](http://www.tcd.uni-konstanz.de/plants_download/)
+**You should request a LICENSE to use PLANTS**, visit the [plants website](http://www.tcd.uni-konstanz.de/plants_download/).
