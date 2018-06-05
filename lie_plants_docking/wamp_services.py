@@ -4,6 +4,7 @@ from lie_plants_docking.plants_docking import PlantsDocking
 from lie_plants_docking.utils import prepaire_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
+import os
 
 
 class DockingWampApi(ComponentSession):
@@ -25,8 +26,9 @@ class DockingWampApi(ComponentSession):
         plants_config = request.copy()
 
         # Prepaire docking directory
+        workdir = os.path.abspath(request['workdir'])
         plants_config["workdir"] = prepaire_work_dir(
-            request['workdir'], create=True)
+            workdir, create=True)
 
         # Run docking
         docking = PlantsDocking(**plants_config)
