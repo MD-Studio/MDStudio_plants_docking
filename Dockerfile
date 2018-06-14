@@ -8,6 +8,6 @@ WORKDIR /home/mdstudio/lie_plants_docking
 
 RUN pip install numpy scipy && pip install .
 
-USER mdstudio
+# USER mdstudio
 
 CMD ["bash", "entry_point_lie_plants_docking.sh"]
