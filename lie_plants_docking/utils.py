@@ -37,7 +37,16 @@ def _schema_to_data(schema, data=None, defdict=None):
     return default_data
 
 
-def prepaire_work_dir(path, user=None, create=False):
+def copy_exec_to_workdir(content, workdir, name='plants_linux'):
+    """
+    Copy the executable to the workdir
+    """
+    path = os.path.join(workdir, name)
+    with open(path, 'wb') as f:
+        f.write(content)
+
+
+def prepare_work_dir(path, user=None, create=False):
     """
     Prepaire a docking working directory at the target path.
     The docking directory is a unique path with a basename composed out of:

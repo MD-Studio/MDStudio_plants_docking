@@ -2,21 +2,32 @@ from mdstudio.deferred.chainable import chainable
 from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
 import os
-import shutil
 
 
-def copy_to_workdir(file_path, workdir):
-    shutil.copy(file_path, workdir)
-    base = os.path.basename(file_path)
-    return os.path.join(workdir, base)
+def create_path_file_obj(path, encoding='utf8'):
+    """
+    Encode the input files
+    """
+    extension = os.path.splitext(path)[1]
+    mode = 'rb' if encoding == 'bytes' else 'r'
+    with open(path, mode) as f:
+        content = f.read()
+
+    return {
+        'path': path, 'encoding': encoding,
+        'content': content, 'extension': extension}
 
 
 workdir = "/tmp/mdstudio/lie_plants_docking"
-protein_file = copy_to_workdir(
-    os.path.join(os.getcwd(), "DT_conf_1.mol2"), workdir)
-ligand_file = copy_to_workdir(
-    os.path.join(os.getcwd(), "ligand.mol2"), workdir)
-exec_path = copy_to_workdir("plants_linux", workdir)
+cwd = os.getcwd()
+os.makedirs(workdir, exist_ok=True)
+
+protein_file = create_path_file_obj(
+    os.path.join(cwd, "DT_conf_1.mol2"))
+ligand_file = create_path_file_obj(
+    os.path.join(cwd, "ligand.mol2"))
+exec_path = create_path_file_obj(
+    os.path.join(cwd, "plants_linux"), encoding='bytes')
 
 
 class Run_docking(ComponentSession):
