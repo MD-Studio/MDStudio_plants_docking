@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from lie_plants_docking.plants_docking import PlantsDocking
-from lie_plants_docking.utils import (
-    copy_exec_to_workdir, prepare_work_dir)
+from lie_plants_docking.utils import prepaire_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
 import os
@@ -28,16 +27,8 @@ class DockingWampApi(ComponentSession):
 
         # Prepaire docking directory
         workdir = os.path.abspath(request['workdir'])
-        plants_config["workdir"] = prepare_work_dir(
+        plants_config["workdir"] = prepaire_work_dir(
             workdir, create=True)
-
-        exec_path = request['exec_path']
-        encoding = exec_path['encoding'].lower()
-        if 'bytes' == encoding:
-            copy_exec_to_workdir(exec_path['content'], workdir)
-        else:
-            msg = "expecting binary exec_path but the encoding is: {}".format(encoding)
-            raise RuntimeError(msg)
 
         # Run docking
         docking = PlantsDocking(**plants_config)
