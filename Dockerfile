@@ -1,4 +1,4 @@
-FROM mdstudio/mdstudio_docker3:0.0.1
+FROM mdstudio/mdstudio_docker3:0.0.2
 
 COPY . /home/mdstudio/lie_plants_docking
 
