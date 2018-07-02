@@ -15,11 +15,11 @@ cwd = os.getcwd()
 os.makedirs(workdir, exist_ok=True)
 
 protein_file = copy_to_workdir(
-    os.path.join(cwd, "DT_conf_1.mol2"))
+    os.path.join(cwd, "DT_conf_1.mol2"), workdir)
 ligand_file = copy_to_workdir(
-    os.path.join(cwd, "ligand.mol2"))
+    os.path.join(cwd, "ligand.mol2"), workdir)
 exec_path = copy_to_workdir(
-    os.path.join(cwd, "plants_linux"), encoding='bytes')
+    os.path.join(cwd, "plants_linux"), workdir)
 
 
 class Run_docking(ComponentSession):
@@ -40,6 +40,7 @@ class Run_docking(ComponentSession):
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
              "workdir": workdir,
              "exec_path": exec_path})
+        print(result)
         assert result['status'] == 'completed'
 
 
