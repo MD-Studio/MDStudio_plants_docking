@@ -37,7 +37,7 @@ def _schema_to_data(schema, data=None, defdict=None):
     return default_data
 
 
-def prepaire_work_dir(path, user=None, create=False):
+def prepare_work_dir(path, user=None, create=False):
     """
     Prepaire a docking working directory at the target path.
     The docking directory is a unique path with a basename composed out of:
