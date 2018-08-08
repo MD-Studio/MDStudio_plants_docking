@@ -10,7 +10,7 @@ import shutil
 import unittest
 
 from lie_plants_docking.plants_docking import PlantsDocking
-from lie_plants_docking.utils import (prepaire_work_dir, settings)
+from lie_plants_docking.utils import (prepare_work_dir, settings)
 
 
 # Add modules in package to path so we can import them
@@ -66,7 +66,7 @@ class PlantsDockingTest(unittest.TestCase):
         Docking is unable to start if the PLANTS executable
         is not found
         """
-        self.workdir = prepaire_work_dir(__rootpath__, create=True)
+        self.workdir = prepare_work_dir(__rootpath__, create=True)
         plants = PlantsDocking(workdir=self.workdir,
                                exec_path='/Users/_dummy_user/lie_plants_docking/tests/plants',
                                bindingsite_center=[7.79934, 9.49666, 3.39229])
@@ -78,7 +78,7 @@ class PlantsDockingTest(unittest.TestCase):
         """
         A working plants docking
         """
-        self.workdir = prepaire_work_dir(__rootpath__, create=True)
+        self.workdir = prepare_work_dir(__rootpath__, create=True)
         settings['workdir'] = self.workdir
         settings['bindingsite_center'] = [7.79934, 9.49666, 3.39229]
         settings['exec_path'] = exec_path

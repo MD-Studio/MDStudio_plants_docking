@@ -48,7 +48,7 @@ def copy_exec_to_workdir(content, workdir, name='plants_linux'):
 
 def prepare_work_dir(path, user=None, create=False):
     """
-    Prepaire a docking working directory at the target path.
+    Prepare a docking working directory at the target path.
     The docking directory is a unique path with a basename composed out of:
 
         docking-<user name>-<time stamp>
@@ -57,7 +57,7 @@ def prepare_work_dir(path, user=None, create=False):
     create it if needed and checks if it is writable.
     If any of these checks fail, None will be returned.
 
-    :param path:   target path to prepaire the dockign directory in
+    :param path:   target path to prepare the dockign directory in
     :type path:    str
     :param user:   optional user name to use in the docking path basename
     :type user:    str
