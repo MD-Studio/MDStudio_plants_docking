@@ -7,6 +7,24 @@ from mdstudio.api.endpoint import endpoint
 import os
 
 
+def encoder(file_path):
+    """
+    Encode the content of `file_path` into a simple dict.
+    """
+    extension = os.path.splitext(file_path)[1]
+    with open(file_path, 'r') as f:
+        content = f.read()
+
+    return {"path": file_path, "extension": extension,
+            "content": content, "encoding": "utf8"}
+
+
+def encode_file(d):
+    """ Serialize the file containing the molecular representation"""
+    d['path'] = encoder(d['path'])
+    return d
+
+
 class DockingWampApi(ComponentSession):
 
     def authorize_request(self, uri, claims):
@@ -48,6 +66,7 @@ class DockingWampApi(ComponentSession):
         if success:
             status = 'completed'
             output = docking.results()
+            output = {key: encode_file(value) for key, value in output.items()}
         else:
             self.log.error('PLANTS docking FAILS!!')
             docking.delete()

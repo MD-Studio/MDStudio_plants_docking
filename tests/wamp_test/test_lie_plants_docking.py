@@ -2,7 +2,6 @@ from mdstudio.deferred.chainable import chainable
 from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
 import os
-import json
 
 file_path = os.path.realpath(__file__)
 root = os.path.split(file_path)[0]
@@ -49,10 +48,8 @@ class Run_docking(ComponentSession):
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
              "workdir": workdir})
 
-        with open("output.json", 'w') as f:
-            json.dump(result, f)
-
         assert result['status'] == 'completed'
+        print("Docking finished successfully!")
 
 
 if __name__ == "__main__":
