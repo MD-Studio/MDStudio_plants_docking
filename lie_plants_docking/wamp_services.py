@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from lie_plants_docking.plants_docking import PlantsDocking
-from lie_plants_docking.utils import (
-    copy_exec_to_workdir, prepare_work_dir)
+from lie_plants_docking.utils import prepare_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
-import base64
 import os
 
 
@@ -27,23 +25,20 @@ class DockingWampApi(ComponentSession):
         # Docking options are equal to the request
         plants_config = request.copy()
 
+        # Transfer the files content
+        plants_config['protein_file'] = request['protein_file']['content']
+        plants_config['ligand_file'] = request['ligand_file']['content']
+
         # Prepare docking directory
         workdir = os.path.abspath(request['workdir'])
         plants_config["workdir"] = prepare_work_dir(
             workdir, create=True)
 
-        exec_path = request['exec_path']
-        encoding = exec_path['encoding'].lower()
+        # location of the executable
+        file_path = os.path.realpath(__file__)
+        root = os.path.split(file_path)[0]
 
-        # The binaries are first encode to base64 then decode to ascii
-        # To get the original binary the inverse operation is applied
-        if 'bytes' == encoding:
-            content = exec_path['content']
-            binary = base64.b64decode(content.encode())
-            copy_exec_to_workdir(binary, workdir)
-        else:
-            msg = "expecting binary exec_path but the encoding is: {}".format(encoding)
-            raise RuntimeError(msg)
+        plants_config['exec_path'] = os.path.join(root, 'plants_linux')
 
         # Run d ocking
         docking = PlantsDocking(**plants_config)

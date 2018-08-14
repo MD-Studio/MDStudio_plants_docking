@@ -1,36 +1,34 @@
 from mdstudio.deferred.chainable import chainable
 from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
-import base64
 import os
+import json
+
+file_path = os.path.realpath(__file__)
+root = os.path.split(file_path)[0]
 
 
-def create_path_file_obj(path, encoding='utf8'):
+def create_path_file_obj(path):
     """
     Encode the input files
     """
     extension = os.path.splitext(path)[1]
-    mode = 'rb' if encoding == 'bytes' else 'r'
-    with open(path, mode) as f:
+    with open(path, 'r') as f:
         content = f.read()
-    if encoding == 'bytes':
-        content = base64.b64encode(content).decode('ascii')
 
     return {
-        'path': path, 'encoding': encoding,
-        'content': content, 'extension': extension}
+        'path': path, 'content': content,
+        'extension': extension}
 
 
-workdir = "/tmp/lie_plants_docking"
+workdir = "/tmp"
 cwd = os.getcwd()
 os.makedirs(workdir, exist_ok=True)
 
 protein_file = create_path_file_obj(
-    os.path.join(cwd, "DT_conf_1.mol2"))
+    os.path.join(root, "DT_conf_1.mol2"))
 ligand_file = create_path_file_obj(
-    os.path.join(cwd, "ligand.mol2"))
-exec_path = create_path_file_obj(
-    os.path.join(cwd, "plants_linux"), encoding='bytes')
+    os.path.join(root, "ligand.mol2"))
 
 
 class Run_docking(ComponentSession):
@@ -49,8 +47,11 @@ class Run_docking(ComponentSession):
              "bindingsite_radius": 12.0,
              "bindingsite_center": [
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
-             "workdir": workdir,
-             "exec_path": exec_path})
+             "workdir": workdir})
+
+        with open("output.json", 'w') as f:
+            json.dump(result, f)
+
         assert result['status'] == 'completed'
 
 

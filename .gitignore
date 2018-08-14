@@ -1,4 +1,4 @@
-###Git ignore file for LIEStudio repository
+###Git ignore file for MDStudio repository
 
 ### LIEStudio specific
 app/typings/
@@ -127,4 +127,3 @@ cerise_config.json
 venv
 .env
 **/.settings.*.yml
-plants_linux

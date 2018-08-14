@@ -10,9 +10,6 @@
 	    "description": "Directory to run the docking simulation",
 	    "default": "/tmp/mdstudio/plants_docking"
 	},
-	"exec_path": {
-	    "$ref": "resource://mdgroup/common_resources/path_file/v1"	    
-	},
 	"scoring_function": {
 	    "type": "string",
 	    "description": "",
@@ -296,7 +293,6 @@
     "required": [
 	"bindingsite_center",
 	"ligand_file",
-	"protein_file",
-	"exec_path"
+	"protein_file"
     ]
 }
