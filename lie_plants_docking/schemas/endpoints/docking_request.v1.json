@@ -5,6 +5,9 @@
     "description": "Plants docking method configuration schema",
     "type": "object",
     "properties": {
+	"fun": {
+	    "type": "object"
+	},
 	"workdir": {
 	    "type": "string",
 	    "description": "Directory to run the docking simulation",

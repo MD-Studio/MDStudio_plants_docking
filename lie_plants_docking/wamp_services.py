@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from autobahn.wamp.types import RegisterOptions
 from lie_plants_docking.plants_docking import PlantsDocking
 from lie_plants_docking.utils import prepare_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
 import os
+import zstd
 
 
 def encoder(file_path):
@@ -12,11 +14,11 @@ def encoder(file_path):
     Encode the content of `file_path` into a simple dict.
     """
     extension = os.path.splitext(file_path)[1]
-    with open(file_path, 'r') as f:
-        content = f.read()
+    # with open(file_path, 'rb') as f:
+    #     content = f.read()
 
     return {"path": file_path, "extension": extension,
-            "content": content, "encoding": "utf8"}
+            "content": file_path, "encoding": "utf8"}
 
 
 def encode_file(d):
@@ -30,7 +32,8 @@ class DockingWampApi(ComponentSession):
     def authorize_request(self, uri, claims):
         return True
 
-    @endpoint('docking', 'docking_request', 'docking_response')
+    @endpoint('docking', 'docking_request', 'docking_response',
+              options=RegisterOptions(details_arg='request'))
     def run_docking(self, request, claims):
         """
         Perform a PLANTS (Protein-Ligand ANT System) molecular docking.
@@ -73,4 +76,8 @@ class DockingWampApi(ComponentSession):
             status = 'failed'
             output = None
 
-        return {'status': status, 'output': output}
+        # for key, val in output.items():
+        #     yield {'status': status, 'output': {key: val}}
+        #     print("key: ", key)
+
+        return {'status': status, 'output': {}} 
