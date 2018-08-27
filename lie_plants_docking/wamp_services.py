@@ -25,12 +25,22 @@ class DockingWampApi(ComponentSession):
         # Docking options are equal to the request
         plants_config = request.copy()
 
-        # Prepaire docking directory
+        # Transfer the files content
+        plants_config['protein_file'] = request['protein_file']['content']
+        plants_config['ligand_file'] = request['ligand_file']['content']
+
+        # Prepare docking directory
         workdir = os.path.abspath(request['workdir'])
         plants_config["workdir"] = prepare_work_dir(
             workdir, create=True)
 
-        # Run docking
+        # location of the executable
+        file_path = os.path.realpath(__file__)
+        root = os.path.split(file_path)[0]
+
+        plants_config['exec_path'] = os.path.join(root, 'plants_linux')
+
+        # Run d ocking
         docking = PlantsDocking(**plants_config)
         success = docking.run(
             plants_config['protein_file'], plants_config['ligand_file'])
@@ -43,5 +53,9 @@ class DockingWampApi(ComponentSession):
             docking.delete()
             status = 'failed'
             output = None
+
+        # for key, val in output.items():
+        #     yield {'status': status, 'output': {key: val}}
+        #     print("key: ", key)
 
         return {'status': status, 'output': output}

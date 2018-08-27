@@ -1,25 +1,34 @@
+from autobahn.wamp.types import CallOptions
 from mdstudio.deferred.chainable import chainable
 from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
 import os
 
-
-def copy_to_workdir(file_path, workdir):
-    # shutil.copy(file_path, workdir)
-    base = os.path.basename(file_path)
-    return os.path.join(workdir, base)
+file_path = os.path.realpath(__file__)
+root = os.path.split(file_path)[0]
 
 
-workdir = "/tmp/mdstudio/lie_plants_docking"
+def create_path_file_obj(path):
+    """
+    Encode the input files
+    """
+    extension = os.path.splitext(path)[1]
+    with open(path, 'r') as f:
+        content = f.read()
+
+    return {
+        'path': path, 'content': content,
+        'extension': extension}
+
+
+workdir = "/tmp"
 cwd = os.getcwd()
 os.makedirs(workdir, exist_ok=True)
 
-protein_file = copy_to_workdir(
-    os.path.join(cwd, "DT_conf_1.mol2"), workdir)
-ligand_file = copy_to_workdir(
-    os.path.join(cwd, "ligand.mol2"), workdir)
-exec_path = copy_to_workdir(
-    os.path.join(cwd, "plants_linux"), workdir)
+protein_file = create_path_file_obj(
+    os.path.join(root, "DT_conf_1.mol2"))
+ligand_file = create_path_file_obj(
+    os.path.join(root, "ligand.mol2"))
 
 
 class Run_docking(ComponentSession):
@@ -29,6 +38,10 @@ class Run_docking(ComponentSession):
 
     @chainable
     def on_run(self):
+
+        def on_progress(*val, **kwargs):
+            print("another piece: ", val, kwargs)
+
         result = yield self.call(
             "mdgroup.lie_plants_docking.endpoint.docking",
             {"protein_file": protein_file,
@@ -38,10 +51,12 @@ class Run_docking(ComponentSession):
              "bindingsite_radius": 12.0,
              "bindingsite_center": [
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
-             "workdir": workdir,
-             "exec_path": exec_path})
-        print(result)
+             "workdir": workdir},
+            options=CallOptions(on_progress=on_progress))
+
         assert result['status'] == 'completed'
+        print(result)
+        print("Docking finished successfully!")
 
 
 if __name__ == "__main__":
