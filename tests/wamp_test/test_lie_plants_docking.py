@@ -21,9 +21,7 @@ def create_path_file_obj(path):
         'extension': extension}
 
 
-workdir = "/tmp"
-cwd = os.getcwd()
-os.makedirs(workdir, exist_ok=True)
+workdir = u"/tmp"
 
 protein_file = create_path_file_obj(
     os.path.join(root, "DT_conf_1.mol2"))
@@ -43,15 +41,15 @@ class Run_docking(ComponentSession):
             print("another piece: ", val, kwargs)
 
         result = yield self.call(
-            "mdgroup.lie_plants_docking.endpoint.docking",
-            {"protein_file": protein_file,
-             "ligand_file": ligand_file,
-             "min_rmsd_tolerance": 3.0,
-             "cluster_structures": 100,
-             "bindingsite_radius": 12.0,
-             "bindingsite_center": [
+            u"mdgroup.lie_plants_docking.endpoint.docking",
+            {u"protein_file": protein_file,
+             u"ligand_file": ligand_file,
+             u"min_rmsd_tolerance": 3.0,
+             u"cluster_structures": 100,
+             u"bindingsite_radius": 12.0,
+             u"bindingsite_center": [
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
-             "workdir": workdir},
+             u"workdir": workdir},
             options=CallOptions(on_progress=on_progress))
 
         assert result['status'] == 'completed'
