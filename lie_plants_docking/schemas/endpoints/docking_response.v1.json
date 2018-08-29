@@ -10,7 +10,7 @@
 	    "enum": ["failed", "completed"]
 	},
 	"output": {
-	    "type": "object",
+	    "type": ["object", "null"],
 	    "description": "Dictionary containing the Plants docking output files"
 	}
     },

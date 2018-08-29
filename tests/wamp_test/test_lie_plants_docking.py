@@ -1,4 +1,3 @@
-from autobahn.wamp.types import CallOptions
 from mdstudio.deferred.chainable import chainable
 from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
@@ -17,8 +16,8 @@ def create_path_file_obj(path):
         content = f.read()
 
     return {
-        'path': path, 'content': content,
-        'extension': extension}
+        u'path': path, u'content': content,
+        u'extension': extension}
 
 
 workdir = u"/tmp"
@@ -37,9 +36,6 @@ class Run_docking(ComponentSession):
     @chainable
     def on_run(self):
 
-        def on_progress(*val, **kwargs):
-            print("another piece: ", val, kwargs)
-
         result = yield self.call(
             u"mdgroup.lie_plants_docking.endpoint.docking",
             {u"protein_file": protein_file,
@@ -49,11 +45,10 @@ class Run_docking(ComponentSession):
              u"bindingsite_radius": 12.0,
              u"bindingsite_center": [
                  4.926394772324452, 19.079624537618873, 21.98915631296689],
-             u"workdir": workdir},
-            options=CallOptions(on_progress=on_progress))
+             u"workdir": workdir})
 
         assert result['status'] == 'completed'
-        print(result)
+        assert all('path' in val for _, val in result['output'].items())
         print("Docking finished successfully!")
 
 
