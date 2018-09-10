@@ -4,15 +4,24 @@
     "description": "docking output",
     "type": "object",
     "properties": {
-	"status": {
-	    "type": "string",
-	    "description": "Plants Docking final status",
-	    "enum": ["failed", "completed"]
-	},
-	"output": {
-	    "type": ["object", "null"],
-	    "description": "Dictionary containing the Plants docking output files"
-	}
+        "status": {
+            "type": "string",
+            "description": "Plants Docking final status",
+            "enum": [
+                "failed",
+                "completed"
+            ]
+        },
+        "output": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "description": "Dictionary containing the Plants docking output files"
+        }
     },
-    "required": ["status", "output"]
+    "required": [
+        "status",
+        "output"
+    ]
 }
