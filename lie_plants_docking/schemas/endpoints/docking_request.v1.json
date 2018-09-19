@@ -8,7 +8,7 @@
         "workdir": {
             "type": "string",
             "description": "Directory to run the docking simulation",
-            "default": "/tmp/mdstudio/plants_docking"
+            "default": "/tmp/mdstudio/lie_plants_docking"
         },
         "scoring_function": {
             "type": "string",
