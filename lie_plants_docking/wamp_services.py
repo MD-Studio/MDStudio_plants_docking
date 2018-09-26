@@ -13,7 +13,7 @@ def encoder(file_path):
     """
     extension = os.path.splitext(file_path)[1]
 
-    return {"path": file_path, "extension": extension,
+    return {"path": file_path, "extension": extension.lstrip('.'),
             "content": None, "encoding": "utf8"}
 
 
@@ -56,7 +56,7 @@ class DockingWampApi(ComponentSession):
 
         plants_config['exec_path'] = os.path.join(root, 'plants_linux')
 
-        # Run d ocking
+        # Run docking
         docking = PlantsDocking(**plants_config)
         success = docking.run(
             plants_config['protein_file'], plants_config['ligand_file'])
