@@ -96,7 +96,8 @@ class PlantsDocking(DockingBase):
         structures = [mol2.get('path') for mol2 in results.values()]
         xyz = coords_from_mol2(structures)
         c = ClusterStructures(xyz, labels=list(results.keys()))
-        clusters = c.cluster(self.config.get('min_rmsd_tolerance', 4.0),
+        clusters = c.cluster(threshold=self.config.get('threshold', 8.0),
+                             criterion=self.config.get('criterion', 'maxclust'),
                              min_cluster_count=self.config.get('min_cluster_size', 2))
 
         for structure, res in clusters.items():

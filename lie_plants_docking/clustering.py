@@ -207,7 +207,7 @@ class ClusterStructures(object):
         summary.append('Clustering {0} structures'.format(len(self.xyz)))
         summary.append('Metric for pairwise distance matrix: {0}'.format(self.metric))
         summary.append('Metric for hierarchical clustering: {0}'.format(self.method))
-        summary.append('Cluster selection criterion: {0} with parameter {1}\n'.format(self.criterion, self.t))
+        summary.append('Cluster selection criterion: {0} with parameter {1}\n'.format(self.criterion, self.threshold))
 
         summary.append('Clusters: {0}, coverage: {1:.2f}%'.format(self.cluster_count, self.coverage * 100))
 
@@ -303,13 +303,18 @@ class ClusterStructures(object):
 
         fig.savefig(to_file)
 
-    def cluster(self, t=5, method='single', criterion='distance', min_cluster_count=1):
+    def cluster(self, threshold=5, method='single', criterion='maxclust', min_cluster_count=1):
         """
         Cluster the structures using hierarchical clustering methods on
         the calculated pairwise distance matrix.
 
-        The selected number of clusters
+        The 'maxclust' criterion is used by default to determined the optimal number
+        of clusters between 1 and 'threshold' that will assign a maximum number of structures
+        to each cluster
 
+        :param threshold:         pairwise distance cutoff used to populate returned
+                                  clusters. Same as in scipy.cluster.hierarchy.fcluster
+        :type threshold:          :py:float
         :param method:            hierarchical clustering methods as defined in
                                   the scipy.cluster.hierarchy.linkage method.
                                   Options are: single, complete, average, weighted,
@@ -319,8 +324,8 @@ class ClusterStructures(object):
                                   hierarchical clustering as defined in the
                                   scipy.cluster.hierarchy.fcluster method.
                                   Options are: inconsistent, distance, maxclust
-                                  monocrit and maxclust_monocrit. t is used as
-                                  threshold for each of these methods
+                                  monocrit and maxclust_monocrit. 'Threshold'
+                                  is used as threshold for each of these methods
         :type criterion:          str
         :param min_cluster_count: minimal number of structures in a cluster
         :type min_cluster_count:  int
@@ -331,10 +336,10 @@ class ClusterStructures(object):
 
         self.method = method
         self.criterion = criterion
-        self.t = t
+        self.threshold = threshold
 
         self._linkage = linkage(self._condensed_distance_matrix, method=method)
-        self._clusters = fcluster(self._linkage, t, criterion=criterion)
+        self._clusters = fcluster(self._linkage, threshold, criterion=criterion)
 
         self._clusters_filtered = {}
         sqmatr = squareform(self._condensed_distance_matrix)
@@ -361,6 +366,7 @@ class ClusterStructures(object):
                     self._clusters_filtered[self.labels[idx]] = {'cluster': 0, 'mean': 0}
 
         self.logger.info('Cluster {0} structures. pdist method: {1}, cluster method: {2}, criterion: {3}, tolerance: {4}, minimum cluster size: {5}'.format(
-            len(self.xyz), self.metric, self.method, self.criterion, self.t, min_cluster_count))
+            len(self.xyz), self.metric, self.method, self.criterion, self.threshold, min_cluster_count))
         self.logger.info('Resolved {0} clusters with a coverage of {1}%'.format(self.cluster_count, self.coverage * 100))
+
         return self._clusters_filtered

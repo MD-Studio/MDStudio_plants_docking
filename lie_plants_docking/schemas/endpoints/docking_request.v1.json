@@ -286,10 +286,15 @@
       "type": "integer",
       "default": 2
     },
-    "min_rmsd_tolerance": {
-      "description": "Minimum RMSD threshold for defining clusters",
+    "threshold": {
+      "description": "Minimum RMSD threshold for defining clusters. Same a the 't' argument in the scipy.cluster.hierarchy.fcluster package",
       "type": "number",
       "default": 4
+    },
+    "criterion": {
+      "description": "Cluster criterion used by the fcluster method (scipy.cluster.hierarchy.fcluster)",
+      "type": "string",
+      "default": "maxclust"
     }
   },
   "required": [

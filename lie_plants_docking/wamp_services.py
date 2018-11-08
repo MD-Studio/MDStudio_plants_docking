@@ -58,8 +58,7 @@ class DockingWampApi(ComponentSession):
 
         # Run docking
         docking = PlantsDocking(**plants_config)
-        success = docking.run(
-            plants_config['protein_file'], plants_config['ligand_file'])
+        success = docking.run(plants_config['protein_file'], plants_config['ligand_file'])
 
         if success:
             status = 'completed'
