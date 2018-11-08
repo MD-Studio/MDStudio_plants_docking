@@ -12,6 +12,10 @@
         "completed"
       ]
     },
+    "clusterplot": {
+      "description": "Dendrogram plot of hierarchical clusters",
+      "$ref": "resource://mdgroup/common_resources/path_file/v1"
+    },
     "output": {
       "type": [
         "object",
