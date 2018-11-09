@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import os
+from autobahn.wamp import RegisterOptions
+
 from lie_plants_docking.plants_docking import PlantsDocking
 from lie_plants_docking.utils import prepare_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
-import os
 
 
 def encoder(file_path):
@@ -28,7 +30,7 @@ class DockingWampApi(ComponentSession):
     def authorize_request(self, uri, claims):
         return True
 
-    @endpoint('docking', 'docking_request', 'docking_response')
+    @endpoint('docking', 'docking_request', 'docking_response', options=RegisterOptions(invoke='roundrobin'))
     def run_docking(self, request, claims):
         """
         Perform a PLANTS (Protein-Ligand ANT System) molecular docking.
