@@ -106,8 +106,6 @@ class PlantsDocking(DockingBase):
         # Plot cluster results
         clusterplot = os.path.join(self.workdir, 'cluster_dendrogram.pdf')
         c.plot(to_file=clusterplot)
-        if os.path.isfile(clusterplot):
-            results['clusterplot'] = {'content': None, 'extension':'pdf', 'path': clusterplot}
 
         return results
 
