@@ -68,7 +68,7 @@ class DockingWampApi(ComponentSession):
             output = {key: encode_file(value) for key, value in results.items()}
 
             # Add path to cluster dendrogram
-            clusterplot = os.path.join(self.workdir, 'cluster_dendrogram.pdf')
+            clusterplot = os.path.join(workdir, 'cluster_dendrogram.pdf')
             if os.path.isfile(clusterplot):
                 results['clusterplot'] = {'content': None, 'extension': 'pdf', 'path': clusterplot}
 
