@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "http://liestudio/schemas/plants_docking_schema.json",
+  "id": "http://mdstudio/schemas/endpoints/docking_request.v1.json",
   "title": "Plants",
   "description": "Plants docking method configuration schema",
   "type": "object",

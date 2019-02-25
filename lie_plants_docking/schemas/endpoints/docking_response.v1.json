@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://mdstudio/schemas/endpoints/docking_response.v1.json",
   "title": "docking output",
   "description": "docking output",
   "type": "object",
