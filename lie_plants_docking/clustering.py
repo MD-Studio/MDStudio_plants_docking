@@ -353,7 +353,7 @@ class ClusterStructures(object):
                 else:
                     a = sqmatr[cl[0]]
                     a = a[:, cl[0]]
-                    m = numpy.mean(numpy.hstack(a[i][:i] for i in range(a.shape[0])))
+                    m = numpy.mean(numpy.hstack([a[i][:i] for i in range(a.shape[0])]))
                     x = (numpy.abs(a - m)).argmin()
                     lc = numpy.where(a == a.flat[x])[0]
 
