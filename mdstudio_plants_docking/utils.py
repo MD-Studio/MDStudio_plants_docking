@@ -2,9 +2,6 @@
 
 """
 IO and subprocess related utility functions.
-
-TODO: Should eventually make there way into the mdstudio module
-      for general use.
 """
 
 import os

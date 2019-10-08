@@ -57,12 +57,12 @@ def _rotate(c1, c2):
     return c1
 
 
-def _centroid(X):
+def _centroid(x):
     """
     Calculate the centroid from a vectorset X
     """
-    C = sum(X) / len(X)
-    return C
+
+    return sum(x)/len(x)
 
 
 def _kabsch(P, Q):
@@ -176,16 +176,16 @@ class ClusterStructures(object):
         self.labels = labels or range(len(labels))
 
         # All xyz coordinate sets need to be of type numpy.ndarray
-        cond = all([isinstance(coords, numpy.ndarray) for coords in self.xyz])
-        assert cond, 'Structure coordinates need to be of type numpy.ndarray'
+        if not all([isinstance(coords, numpy.ndarray) for coords in self.xyz]):
+            raise AssertionError('Structure coordinates need to be of type numpy.ndarray')
 
         # Equality in number and order of atoms for all coordinate sets is assumed
-        cond = len(set([coords.size for coords in self.xyz])) == 1
-        assert cond, 'Structure coordinates have an unequal number of atoms'
+        if not len(set([coords.size for coords in self.xyz])) == 1:
+            raise AssertionError('Structure coordinates have an unequal number of atoms')
 
         # Optional list of labels (e.a. structure id's) need to match coordinate set in length
-        cond = len(self.labels) == len(self.xyz)
-        assert cond, 'Number if labels is not matching number of coordinate sets'
+        if not len(self.labels) == len(self.xyz):
+            raise AssertionError('Number if labels is not matching number of coordinate sets')
 
         self._condensed_distance_matrix = self._build_pdist()
         self._clusters = []
@@ -203,13 +203,13 @@ class ClusterStructures(object):
         Return a nicely formatted summary of the clustering
         """
 
-        summary = []
-        summary.append('Clustering {0} structures'.format(len(self.xyz)))
-        summary.append('Metric for pairwise distance matrix: {0}'.format(self.metric))
-        summary.append('Metric for hierarchical clustering: {0}'.format(self.method))
-        summary.append('Cluster selection criterion: {0} with parameter {1}\n'.format(self.criterion, self.threshold))
-
-        summary.append('Clusters: {0}, coverage: {1:.2f}%'.format(self.cluster_count, self.coverage * 100))
+        summary = [
+            'Clustering {0} structures'.format(len(self.xyz)),
+            'Metric for pairwise distance matrix: {0}'.format(self.metric),
+            'Metric for hierarchical clustering: {0}'.format(self.method),
+            'Cluster selection criterion: {0} with parameter {1}\n'.format(self.criterion, self.threshold),
+            'Clusters: {0}, coverage: {1:.2f}%'.format(self.cluster_count, self.coverage * 100)
+        ]
 
         return '\n'.join(summary)
 
@@ -273,7 +273,7 @@ class ClusterStructures(object):
         :rtype: float
         """
 
-        return (len(self.clustered_structures) / float(len(self.xyz)))
+        return len(self.clustered_structures) / float(len(self.xyz))
 
     def plot(self, to_file='cluster_dendrogram.pdf'):
         """
@@ -361,12 +361,14 @@ class ClusterStructures(object):
                 for idx in cl[0]:
                     self._clusters_filtered[self.labels[idx]] = {'cluster': n, 'mean': self.labels[idx] == meanpose}
             else:
-                self.logger.debug('Cluster {0} contains less that {1} structures ({2}). Dropping'.format(n, min_cluster_count, len(cl[0])))
+                self.logger.debug('Cluster {0} contains less that {1} structures ({2}). Dropping'.format(n,
+                                                                                        min_cluster_count, len(cl[0])))
                 for idx in cl[0]:
                     self._clusters_filtered[self.labels[idx]] = {'cluster': 0, 'mean': 0}
 
-        self.logger.info('Cluster {0} structures. pdist method: {1}, cluster method: {2}, criterion: {3}, tolerance: {4}, minimum cluster size: {5}'.format(
-            len(self.xyz), self.metric, self.method, self.criterion, self.threshold, min_cluster_count))
-        self.logger.info('Resolved {0} clusters with a coverage of {1}%'.format(self.cluster_count, self.coverage * 100))
+        self.logger.info('Cluster {0} structures. pdist method: {1}, cluster method: {2}, criterion: {3}, '
+                         'tolerance: {4}, minimum cluster size: {5}'.format(len(self.xyz), self.metric, self.method,
+                                                                    self.criterion, self.threshold, min_cluster_count))
+        self.logger.info('Resolved {0} clusters. Coverage: {1}%'.format(self.cluster_count, self.coverage * 100))
 
         return self._clusters_filtered

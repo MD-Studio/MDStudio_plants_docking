@@ -45,8 +45,10 @@ class DockingBase(object):
             if key in self.allowed_config_options:
                 self._config[key] = value
             else:
-                self.logging.warn('{0} configuration file has no setting named: {0}'.format(self.method, key), **self.user_meta)
-        self.logging.info('Override {0} configuration for options: {1}'.format(self.method, ', '.join(config.keys())), **self.user_meta)
+                self.logging.warn('{0} configuration file has no setting named: {1}'.format(self.method, key),
+                                  **self.user_meta)
+        self.logging.info('Override {0} configuration for options: {1}'.format(self.method, ', '.join(config.keys())),
+                          **self.user_meta)
 
     def delete(self):
         """
@@ -56,20 +58,23 @@ class DockingBase(object):
             try:
                 shutil.rmtree(self.workdir)
             except Exception as e:
-                self.logging.warn('Unable to remove working directory: {0}, with error: {1}'.format(self.workdir, e), **self.user_meta)
+                self.logging.warn('Unable to remove working directory: {0}, with error: {1}'.format(self.workdir, e),
+                                  **self.user_meta)
         else:
             self.logging.warn('working directory {0} does not exist'.format(self.workdir), **self.user_meta)
 
-    def clean(self, exclude=[]):
+    def clean(self, exclude=None):
         """
         Clean the working directory by removing all files except those in `exclude`
 
         :param exclude: files to preserve
-        :type exlude:   :py:list
+        :type exclude:   :py:list
         """
 
+        exclude = exclude or []
         folder_content = [f for f in os.listdir(self.workdir) if f not in exclude]
-        self.logging.debug('Clean {0} files in directory: {1}'.format(len(folder_content), self.workdir), **self.user_meta)
+        self.logging.debug('Clean {0} files in directory: {1}'.format(len(folder_content), self.workdir),
+                           **self.user_meta)
 
         for file_to_remove in folder_content:
             file_to_remove = os.path.join(self.workdir, file_to_remove)

@@ -43,12 +43,13 @@ class Run_docking(ComponentSession):
              u"min_rmsd_tolerance": 3.0,
              u"cluster_structures": 100,
              u"bindingsite_radius": 12.0,
-             u"bindingsite_center": [
-                 4.926394772324452, 19.079624537618873, 21.98915631296689],
+             u"bindingsite_center": [4.926394772324452, 19.079624537618873, 21.98915631296689],
              u"workdir": workdir})
 
-        assert result['status'] == 'completed'
-        assert all('path' in val for _, val in result['output'].items())
+        if result['status'] != 'completed':
+            raise AssertionError('Docking failed, status: {0}'.format(result['status']))
+        if not all('path' in val for _, val in result['output'].items()):
+            raise AssertionError('Not all expected output files created')
         print("Docking finished successfully!")
 
 

@@ -52,9 +52,9 @@ class PlantsDocking(DockingBase):
     """
     logger = logging.getLogger(__name__)
 
-    def __init__(self, workdir=None, user_meta={}, **kwargs):
+    def __init__(self, workdir=None, user_meta=None, **kwargs):
 
-        self.user_meta = user_meta
+        self.user_meta = user_meta or {}
 
         self.config = kwargs
         self.workdir = workdir
@@ -154,11 +154,13 @@ class PlantsDocking(DockingBase):
             self.logger.error('Plants executable not available at: {0}'.format(exec_path), **self.user_meta)
             return False
         if not os.access(exec_path, os.X_OK):
-            self.logger.error('Plants executable {0} does not have exacutable permissions'.format(exec_path), **self.user_meta)
+            self.logger.error('Plants executable {0} does not have exacutable permissions'.format(exec_path),
+                              **self.user_meta)
             return False
 
         if sum(self.config.get('bindingsite_center')) == 0 or len(self.config.get('bindingsite_center')) != 3:
-            self.logger.error('Malformed binding site center definition: {0}'.format(self.config.get('bindingsite_center')), **self.user_meta)
+            self.logger.error('Malformed binding site center definition: {0}'.format(
+                self.config.get('bindingsite_center')), **self.user_meta)
             return False
 
         # Copy files to working directory
@@ -182,8 +184,7 @@ class PlantsDocking(DockingBase):
             conf.write(PLANTS_CONF_FILE_TEMPLATE.format(**self.config))
 
         cmd = [exec_path, '--mode', mode, 'plants.config']
-        self.logger.info(
-            "Running plants_docking command:\n{}".format(' '.join(cmd)))
-        output, error = cmd_runner(cmd, self.workdir)
+        self.logger.info("Running plants_docking command:\n{}".format(' '.join(cmd)))
+        cmd_runner(cmd, self.workdir)
 
         return True
