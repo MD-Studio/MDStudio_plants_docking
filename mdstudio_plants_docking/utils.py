@@ -111,5 +111,5 @@ def cmd_runner(cmd, workdir):
 
 
 PLANTS_DOCKING_SCHEMA = os.path.join(
-    pkgutil.get_data('lie_plants_docking', 'schemas/endpoints/docking_request.v1.json'))
+    pkgutil.get_data('mdstudio_plants_docking', 'schemas/endpoints/docking_request.v1.json'))
 settings = _schema_to_data(json.loads(PLANTS_DOCKING_SCHEMA))

@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# package: lie_plants_docking
+# package: mdstudio_plants_docking
 # file: setup.py
 #
-# Part of ‘lie_plants_docking’, a package providing molecular docking functionality
+# Part of ‘mdstudio_plants_docking’, a package providing molecular docking functionality
 # for the LIEStudio package.
 #
 # Copyright © 2016 Marc van Dijk, VU University Amsterdam, the Netherlands
@@ -23,7 +23,7 @@
 
 from setuptools import setup, find_packages
 
-distribution_name = 'lie_plants_docking'
+distribution_name = 'mdstudio_plants_docking'
 
 setup(
     name=distribution_name,

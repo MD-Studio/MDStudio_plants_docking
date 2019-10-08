@@ -37,7 +37,7 @@ class Run_docking(ComponentSession):
     def on_run(self):
 
         result = yield self.call(
-            u"mdgroup.lie_plants_docking.endpoint.docking",
+            u"mdgroup.mdstudio_plants_docking.endpoint.docking",
             {u"protein_file": protein_file,
              u"ligand_file": ligand_file,
              u"min_rmsd_tolerance": 3.0,

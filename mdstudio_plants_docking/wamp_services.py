@@ -3,8 +3,8 @@
 import os
 from autobahn.wamp import RegisterOptions
 
-from lie_plants_docking.plants_docking import PlantsDocking
-from lie_plants_docking.utils import prepare_work_dir
+from mdstudio_plants_docking.plants_docking import PlantsDocking
+from mdstudio_plants_docking.utils import prepare_work_dir
 from mdstudio.component.session import ComponentSession
 from mdstudio.api.endpoint import endpoint
 

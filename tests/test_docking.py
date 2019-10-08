@@ -9,8 +9,8 @@ import os
 import shutil
 import unittest
 
-from lie_plants_docking.plants_docking import PlantsDocking
-from lie_plants_docking.utils import (prepare_work_dir, settings)
+from mdstudio_plants_docking.plants_docking import PlantsDocking
+from mdstudio_plants_docking.utils import (prepare_work_dir, settings)
 
 
 # Add modules in package to path so we can import them
@@ -55,7 +55,7 @@ class PlantsDockingTest(unittest.TestCase):
         is not available and cannot be created
         """
 
-        plants = PlantsDocking(workdir='/Users/_dummy_user/lie_plants_docking/tests/plants_docking',
+        plants = PlantsDocking(workdir='/Users/_dummy_user/mdstudio_plants_docking/tests/plants_docking',
                                exec_path=exec_path,
                                bindingsite_center=[7.79934, 9.49666, 3.39229])
 
@@ -68,7 +68,7 @@ class PlantsDockingTest(unittest.TestCase):
         """
         self.workdir = prepare_work_dir(__rootpath__, create=True)
         plants = PlantsDocking(workdir=self.workdir,
-                               exec_path='/Users/_dummy_user/lie_plants_docking/tests/plants',
+                               exec_path='/Users/_dummy_user/mdstudio_plants_docking/tests/plants',
                                bindingsite_center=[7.79934, 9.49666, 3.39229])
 
         self.assertFalse(plants.run(self.protein, self.ligand))

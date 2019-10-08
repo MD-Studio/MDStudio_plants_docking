@@ -13,10 +13,10 @@ import logging
 import os
 import csv
 
-from lie_plants_docking.docking_base import DockingBase
-from lie_plants_docking.plants_conf import PLANTS_CONF_FILE_TEMPLATE
-from lie_plants_docking.utils import cmd_runner
-from lie_plants_docking.clustering import (coords_from_mol2, ClusterStructures)
+from mdstudio_plants_docking.docking_base import DockingBase
+from mdstudio_plants_docking.plants_conf import PLANTS_CONF_FILE_TEMPLATE
+from mdstudio_plants_docking.utils import cmd_runner
+from mdstudio_plants_docking.clustering import (coords_from_mol2, ClusterStructures)
 
 
 class PlantsDocking(DockingBase):
@@ -32,7 +32,7 @@ class PlantsDocking(DockingBase):
 
     This class is compatible with PLANTS versions 1.1 and 1.2.
     If not otherwise defined, the PLANTS executable files are available
-    in the bin directory of the lie_plants_docking package suffixed by the
+    in the bin directory of the mdstudio_plants_docking package suffixed by the
     OS identifier as returned by `sys.platform`.
     Support is available for all of PLANTS default configuration options
     described in sections 1.0 of the PLANTS manual.

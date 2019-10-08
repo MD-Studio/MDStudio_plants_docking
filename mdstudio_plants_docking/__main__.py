@@ -1,5 +1,5 @@
 from mdstudio.runner import main
-from lie_plants_docking.wamp_services import DockingWampApi
+from mdstudio_plants_docking.wamp_services import DockingWampApi
 
 
 if __name__ == '__main__':

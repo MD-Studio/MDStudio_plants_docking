@@ -10,7 +10,7 @@ functional sites using the PLANTS molecular docking methods.
 
 import os
 
-__module__ = 'lie_plants_docking'
+__module__ = 'mdstudio_plants_docking'
 __docformat__ = 'restructuredtext'
 __version__ = '{major:d}.{minor:d}'.format(major=0, minor=1)
 __author__ = 'Marc van Dijk'
